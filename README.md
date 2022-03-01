@@ -1,0 +1,1 @@
+This is my implementation of a simple and accessible notepad app, with MVVM architecture.
