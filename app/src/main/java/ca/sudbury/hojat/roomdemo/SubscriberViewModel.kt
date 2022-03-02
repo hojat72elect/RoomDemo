@@ -1,6 +1,7 @@
 package ca.sudbury.hojat.roomdemo
 
 import androidx.databinding.Bindable
+import androidx.databinding.Observable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,7 +16,12 @@ import kotlinx.coroutines.launch
  * As the name suggests, this class defines the ViewModel layer
  * for connection between our GUI classes and "Subscriber Repository".
  */
-class SubscriberViewModel(private val repository: SubscriberRepository) : ViewModel() {
+class SubscriberViewModel(private val repository: SubscriberRepository) : ViewModel(), Observable {
+
+    /*ViewModel needs to implement the "androidx.databinding.Observable" interface so it can access/manipulate bindings in View layer. This interface defines 2 functions:
+    * 1- addOnPropertyChangedCallback()
+    * 2- removeOnPropertyChangedCallback()
+    * */
 
     // Pay attention that in ViewModel, we're getting our needed data from repository.
     val subscribers = repository.subscribers
@@ -76,5 +82,13 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
         viewModelScope.launch {
             repository.deleteAll()
         }
+    }
+
+    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+
+    }
+
+    override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+
     }
 }
