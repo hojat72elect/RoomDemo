@@ -1,8 +1,8 @@
-package ca.sudbury.hojat.roomdemo
+package ca.sudbury.hojat.roomdemo.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ca.sudbury.hojat.roomdemo.db.SubscriberRepository
+import ca.sudbury.hojat.roomdemo.model.SubscriberRepository
 
 /**
  * Created by Hojat Ghasemi at 2022-03-01

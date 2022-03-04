@@ -7,7 +7,7 @@
         SubscriberViewModel class to this UI layout.-->
         <variable
             name="myViewModel"
-            type="ca.sudbury.hojat.roomdemo.SubscriberViewModel" />
+            type="ca.sudbury.hojat.roomdemo.viewmodel.SubscriberViewModel" />
     </data>
 
 

@@ -1,4 +1,4 @@
-package ca.sudbury.hojat.roomdemo.db
+package ca.sudbury.hojat.roomdemo.model
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

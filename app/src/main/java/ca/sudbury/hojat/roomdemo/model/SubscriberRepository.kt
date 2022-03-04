@@ -1,4 +1,4 @@
-package ca.sudbury.hojat.roomdemo.db
+package ca.sudbury.hojat.roomdemo.model
 
 /**
  * Created by Hojat Ghasemi at 2022-03-01

@@ -1,4 +1,4 @@
-package ca.sudbury.hojat.roomdemo.db
+package ca.sudbury.hojat.roomdemo.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

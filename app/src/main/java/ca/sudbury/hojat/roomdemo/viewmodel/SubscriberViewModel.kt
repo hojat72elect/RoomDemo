@@ -1,12 +1,12 @@
-package ca.sudbury.hojat.roomdemo
+package ca.sudbury.hojat.roomdemo.viewmodel
 
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ca.sudbury.hojat.roomdemo.db.Subscriber
-import ca.sudbury.hojat.roomdemo.db.SubscriberRepository
+import ca.sudbury.hojat.roomdemo.model.Subscriber
+import ca.sudbury.hojat.roomdemo.model.SubscriberRepository
 import kotlinx.coroutines.launch
 
 /**

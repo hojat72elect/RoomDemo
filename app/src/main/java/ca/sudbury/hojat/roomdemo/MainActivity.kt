@@ -6,9 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import ca.sudbury.hojat.roomdemo.databinding.ActivityMainBinding
-import ca.sudbury.hojat.roomdemo.db.SubscriberDataBase
-import ca.sudbury.hojat.roomdemo.db.SubscriberRepository
+import ca.sudbury.hojat.roomdemo.model.SubscriberDataBase
+import ca.sudbury.hojat.roomdemo.model.SubscriberRepository
+import ca.sudbury.hojat.roomdemo.viewmodel.MyRecyclerViewAdapter
+import ca.sudbury.hojat.roomdemo.viewmodel.SubscriberViewModel
+import ca.sudbury.hojat.roomdemo.viewmodel.SubscriberViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding // the binding between View layer and UI xml files.
@@ -21,12 +25,11 @@ class MainActivity : AppCompatActivity() {
         val repository = SubscriberRepository(dao)
         val factory = SubscriberViewModelFactory(repository)
         subscriberViewModel = ViewModelProvider(this, factory).get(SubscriberViewModel::class.java)
-        binding.myViewModel =
-            subscriberViewModel // here we set the ViewModel that controls the bindings in the View layer (bindings between xml UI and View classes).
-        binding.lifecycleOwner =
-            this // but that binding exists just as long as this Activity lives.
-        displaySubscribersList()
-
+        // here we set the ViewModel that controls the bindings in the View layer (bindings between xml UI and View classes).
+        binding.myViewModel = subscriberViewModel
+        // but that binding exists just as long as this Activity lives:
+        binding.lifecycleOwner = this
+        initRecyclerView()
     }
 
     // The observable that looks at data received and draws it to the UI
@@ -34,6 +37,12 @@ class MainActivity : AppCompatActivity() {
         // we're in the View layer so all our data-related communications will be with ViewModel
         subscriberViewModel.subscribers.observe(this, Observer {
             Log.i("MYTAG", it.toString())
+            binding.subscriberRecyclerView.adapter = MyRecyclerViewAdapter(it)
         })
+    }
+
+    private fun initRecyclerView() {
+        binding.subscriberRecyclerView.layoutManager = LinearLayoutManager(this)
+        displaySubscribersList()
     }
 }
