@@ -1,5 +1,6 @@
 package ca.sudbury.hojat.roomdemo
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -19,6 +20,8 @@ import ca.sudbury.hojat.roomdemo.viewmodel.SubscriberViewModelFactory
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding // the binding between View layer and UI xml files.
     private lateinit var subscriberViewModel: SubscriberViewModel
+    private lateinit var adapter: MyRecyclerViewAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,19 +46,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     // The observable that looks at data received and draws it to the UI
+    @SuppressLint("NotifyDataSetChanged")
     private fun displaySubscribersList() {
         // we're in the View layer so all our data-related communications will be with ViewModel
         subscriberViewModel.subscribers.observe(this, Observer {
             Log.i("MYTAG", it.toString())
-            binding.subscriberRecyclerView.adapter =
-                MyRecyclerViewAdapter(
-                    it
-                ) { selectedItem: Subscriber -> listItemClicked(selectedItem) }
+            adapter.setList(it)
+            adapter.notifyDataSetChanged()
         })
     }
 
     private fun initRecyclerView() {
         binding.subscriberRecyclerView.layoutManager = LinearLayoutManager(this)
+        adapter =
+            MyRecyclerViewAdapter { selectedItem: Subscriber -> listItemClicked(selectedItem) }
+        binding.subscriberRecyclerView.adapter = adapter
         displaySubscribersList()
     }
 
