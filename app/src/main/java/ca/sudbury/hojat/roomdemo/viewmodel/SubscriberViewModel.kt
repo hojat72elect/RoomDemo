@@ -1,5 +1,6 @@
 package ca.sudbury.hojat.roomdemo.viewmodel
 
+import android.util.Patterns
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.lifecycle.LiveData
@@ -61,16 +62,27 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
 
     // This function is bound to a button in main UI layout
     fun saveOrUpdate() {
-        if (isUpdateOrDelete) {
-            subscriberToUpdateOrDelete.name = inputName.value!!
-            subscriberToUpdateOrDelete.email = inputEmail.value!!
-            update(subscriberToUpdateOrDelete)
+
+        // This part is for user input validation.
+        if (inputName.value == null) {
+            statusMessage.value = Event("Please enter subscriber's name")
+        } else if (inputEmail.value == null) {
+            statusMessage.value = Event("Please enter subscriber's email")
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(inputEmail.value!!).matches()) {
+            statusMessage.value = Event("Please enter a correct email address")
         } else {
-            val name = inputName.value!!
-            val email = inputEmail.value!!
-            insert(Subscriber(0, name, email))
-            inputName.value = null
-            inputEmail.value = null
+            // input is validated and ready to be used:
+            if (isUpdateOrDelete) {
+                subscriberToUpdateOrDelete.name = inputName.value!!
+                subscriberToUpdateOrDelete.email = inputEmail.value!!
+                update(subscriberToUpdateOrDelete)
+            } else {
+                val name = inputName.value!!
+                val email = inputEmail.value!!
+                insert(Subscriber(0, name, email))
+                inputName.value = null
+                inputEmail.value = null
+            }
         }
     }
 
@@ -146,7 +158,6 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
         saveOrUpdateButtonText.value = "Update"
         clearAllOrDeleteButtonText.value = "Delete"
     }
-
 
     override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
 
