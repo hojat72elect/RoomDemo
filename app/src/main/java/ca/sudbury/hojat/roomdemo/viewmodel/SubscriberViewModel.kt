@@ -2,9 +2,11 @@ package ca.sudbury.hojat.roomdemo.viewmodel
 
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ca.sudbury.hojat.roomdemo.Event
 import ca.sudbury.hojat.roomdemo.model.Subscriber
 import ca.sudbury.hojat.roomdemo.model.SubscriberRepository
 import kotlinx.coroutines.launch
@@ -39,6 +41,15 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
 
     @Bindable
     val clearAllOrDeleteButtonText = MutableLiveData<String>()
+
+    // for handling the events that might happen in View layer.
+    private val statusMessage = MutableLiveData<Event<String>>()
+
+    val message: LiveData<Event<String>>
+        get() = statusMessage
+    // The public field is immutable live data. And when other
+    // classes access this field, we return a private mutable
+    // live data. This is a good practice for data security.
 
     init {
         // According to the state of this class, the text shown
@@ -75,6 +86,7 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
         // This function will work on a background thread
         viewModelScope.launch {
             repository.insert(subscriber)
+            statusMessage.value = Event("Subscriber inserted successfully.")
         }
     }
 
@@ -86,6 +98,7 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
             isUpdateOrDelete = false
             saveOrUpdateButtonText.value = "Save"
             clearAllOrDeleteButtonText.value = "Clear All"
+            statusMessage.value = Event("Subscriber updated successfully.")
         }
     }
 
@@ -97,12 +110,16 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
             isUpdateOrDelete = false
             saveOrUpdateButtonText.value = "Save"
             clearAllOrDeleteButtonText.value = "Clear All"
+            statusMessage.value = Event("Subscriber deleted successfully.")
+
         }
     }
 
     fun clearAll() {
         viewModelScope.launch {
             repository.deleteAll()
+            statusMessage.value = Event("All subscribers deleted successfully.")
+
         }
     }
 

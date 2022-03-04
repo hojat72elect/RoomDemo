@@ -27,11 +27,19 @@ class MainActivity : AppCompatActivity() {
         val repository = SubscriberRepository(dao)
         val factory = SubscriberViewModelFactory(repository)
         subscriberViewModel = ViewModelProvider(this, factory).get(SubscriberViewModel::class.java)
-        // here we set the ViewModel that controls the bindings in the View layer (bindings between xml UI and View classes).
+        // here we set the ViewModel that controls the bindings in the
+        // View layer (bindings between xml UI and View classes).
         binding.myViewModel = subscriberViewModel
         // but that binding exists just as long as this Activity lives:
         binding.lifecycleOwner = this
         initRecyclerView()
+
+        // register an observer to respond to messages from ViewModel.
+        subscriberViewModel.message.observe(this, Observer { event ->
+            event.getContentIfNotHandled()?.let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     // The observable that looks at data received and draws it to the UI
@@ -52,7 +60,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun listItemClicked(subscriber: Subscriber) {
-        Toast.makeText(this, "selected name is ${subscriber.name}", Toast.LENGTH_SHORT).show()
         subscriberViewModel.initUpdateAndDelete(subscriber)
     }
 }
