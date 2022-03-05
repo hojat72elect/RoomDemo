@@ -1,10 +1,10 @@
 This is my template app demoing these technologies in an easy-to-understand fashion:
 
 <ol>
-<li>MVVM architecture</li>
-<li>Android Room (as the back end technology)</li>
-<li>Kotlin Coroutines (for performing CRUD operations in ViewModel layer)</li>
-<li>DataBinding, LiveData & Observer for easy communication between View and ViewModel layers of the
+<li><b>MVVM</b> architecture</li>
+<li>Android <b>Room</b> (as the back end technology)</li>
+<li>Kotlin <b>Coroutines</b> (for performing CRUD operations in ViewModel layer)</li>
+<li><b>DataBinding</b>, <b>LiveData</b> & <b>Observer</b> for easy communication between View and ViewModel layers of the
 app.</li>
 </ol>
 
