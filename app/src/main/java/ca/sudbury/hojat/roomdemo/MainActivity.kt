@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val dao = SubscriberDataBase.getInstance(application).subscriberDAO
         val repository = SubscriberRepository(dao)
-        val factory = SubscriberViewModelFactory(repository)
+        val factory = SubscriberViewModelFactory(repository) // The builder for ViewModel
         subscriberViewModel = ViewModelProvider(this, factory).get(SubscriberViewModel::class.java)
         // here we set the ViewModel that controls the bindings in the
         // View layer (bindings between xml UI and View classes).

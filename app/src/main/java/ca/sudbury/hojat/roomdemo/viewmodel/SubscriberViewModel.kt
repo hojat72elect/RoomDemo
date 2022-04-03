@@ -21,13 +21,15 @@ import kotlinx.coroutines.launch
  */
 class SubscriberViewModel(private val repository: SubscriberRepository) : ViewModel(), Observable {
 
-    /*ViewModel needs to implement the "androidx.databinding.Observable" interface so it can access/manipulate bindings in View layer. This interface defines 2 functions:
-    * 1- addOnPropertyChangedCallback()
-    * 2- removeOnPropertyChangedCallback()
-    * */
+    /** ViewModel needs to implement the "androidx.databinding.Observable" interface, so it can access/manipulate
+     * bindings in View layer. This interface defines 2 functions:
+     * 1- addOnPropertyChangedCallback()
+     * 2- removeOnPropertyChangedCallback()
+     *
+     *
+     * Pay attention that in ViewModel, we're getting our
+     * needed data from repository.*/
 
-    // Pay attention that in ViewModel, we're getting our
-    // needed data from repository.
     val subscribers = repository.subscribers
     private var isUpdateOrDelete = false
     private lateinit var subscriberToUpdateOrDelete: Subscriber

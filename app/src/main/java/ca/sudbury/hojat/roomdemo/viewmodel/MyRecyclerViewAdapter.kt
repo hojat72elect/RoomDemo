@@ -36,6 +36,7 @@ class MyRecyclerViewAdapter(
     }
 
     fun setList(subscribers: List<Subscriber>) {
+        // todo: this function has side-effects. It needs improvements.
         subscribersList.clear()
         subscribersList.addAll(subscribers)
     }
